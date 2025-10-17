@@ -5,7 +5,7 @@ from app.database import get_db_connection
 from app.security import verify_token
 from app.schemas import PostCreate, PostDelete, PostEdit
 
-router = APIRouter(prefix="/api/post")
+router = APIRouter(prefix="/api/post", tags=["CRUD Posts API"])
 
 @router.post("/create")
 def create_post(post: PostCreate, current_user: dict = Depends(verify_token)):
@@ -160,9 +160,16 @@ def delete_post(post: PostDelete, current_user: dict = Depends(verify_token)):
 @router.get("/news/{page}")
 def get_news(page: int = 1, page_size: int = Query(default=10, ge=1, le=50)):
     """
-    - page: номер страницы (начинается с 1)
-    - page_size: количество постов на странице (по умолчанию 10 максимум 50)
+    page: номер страницы (начинается с 1)
+    page_size: количество постов на странице (по умолчанию 10 максимум 50)
+    
     """
+
+    if page < 1:
+        page = 1
+
+    offset = (page - 1) * page_size
+
     try:
         with get_db_connection() as conn:
             cursor = conn.cursor()

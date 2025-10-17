@@ -1,7 +1,13 @@
-from dotenv import load_dotenv
-import os
+from pydantic_settings import BaseSettings
 
-load_dotenv()
+class Settings(BaseSettings):
+    KEY: str
+    ALGORITHM: str
+    
+    class Config:
+        env_file = ".env"
 
-secret_key = os.getenv("KEY")
-algorithm = os.getenv("ALGORITHM")
+settings = Settings()
+
+secret_key = settings.KEY
+algorithm = settings.ALGORITHM

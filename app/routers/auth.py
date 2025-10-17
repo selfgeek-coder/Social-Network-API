@@ -9,7 +9,7 @@ from app.database import get_db_connection
 from app.security import create_access_token
 
 ph = PasswordHasher()
-router = APIRouter(prefix="/api")
+router = APIRouter(prefix="/api", tags=["Auth API"])
 
 @router.post("/register")
 def api_register(user: UserRegister):

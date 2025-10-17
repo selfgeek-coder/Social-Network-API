@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator, Field
+from pydantic import BaseModel, EmailStr, field_validator, Field, constr
 
 class UserRegister(BaseModel):
     email: EmailStr
@@ -13,6 +13,11 @@ class UserRegister(BaseModel):
         
         if ' ' in v:
             raise ValueError('Логин не должен содержать пробелы.')
+        
+        forbidden_chars = '<>"*&|\\/[]{}'
+        for char in v:
+            if char in forbidden_chars:
+                raise ValueError(f'Логин не должен содержать запрещенные символы.')
         
         return v
 
@@ -38,13 +43,13 @@ class PostCreate(BaseModel):
     def validate_title(cls, v: str) -> str:
         v = v.strip()
         if not v:
-            raise ValueError('Заголовок не может быть пустым')
+            raise ValueError('Заголовок не может быть пустым.')
         
         if len(v) < 3:
-            raise ValueError('Заголовок должен содержать минимум 3 символа')
+            raise ValueError('Заголовок должен содержать минимум 3 символа.')
         
         if v[0].islower():
-            raise ValueError('Заголовок должен начинаться с заглавной буквы')
+            raise ValueError('Заголовок должен начинаться с заглавной буквы.')
         
         return v
 
@@ -70,13 +75,13 @@ class PostEdit(BaseModel):
     def validate_title(cls, v: str) -> str:
         v = v.strip()
         if not v:
-            raise ValueError('Заголовок не может быть пустым')
+            raise ValueError('Заголовок не может быть пустым.')
         
         if len(v) < 3:
-            raise ValueError('Заголовок должен содержать минимум 3 символа')
+            raise ValueError('Заголовок должен содержать минимум 3 символа.')
         
         if v[0].islower():
-            raise ValueError('Заголовок должен начинаться с заглавной буквы')
+            raise ValueError('Заголовок должен начинаться с заглавной буквы.')
         
         return v
 
@@ -85,10 +90,10 @@ class PostEdit(BaseModel):
     def validate_content(cls, v: str) -> str:
         v = v.strip()
         if not v:
-            raise ValueError('Содержание не может быть пустым')
+            raise ValueError('Содержание не может быть пустым.')
         
         if len(v) < 12:
-            raise ValueError('Содержание должно быть не менее 12 символов')
+            raise ValueError('Содержание должно быть не менее 12 символов.')
 
         return v
 
