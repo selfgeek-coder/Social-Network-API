@@ -20,3 +20,16 @@ FastAPI, sqlite3, JWT, Argon2 (хэширование паролей), pydantic 
 KEY=ваш ключ
 ALGORITHM=HS256
 ```
+
+### ЕндПоинты
+
+##### Auth
+1. POST `/api/register/` - регистрация
+2. POST `/api/login/` - вход
+
+##### Posts
+1. POST `/api/post/create` - создание поста
+2. PUT `/api/post/edit` - редактирование существующего поста
+3. DELETE `/api/post/delete` - удаление поста по id
+4. GET `/api/post/news` - получение новых постов
+5. GET `/api/post/news/{page}` - получение новых постов с пагинацией, например page=1 - 1 страница (10 постов), page=2 - 2 страница
